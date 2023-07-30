@@ -23,3 +23,13 @@ class Customer(BaseModel):
     account_number: int
     balance: int
     is_premium: bool
+
+class CustomerUpdateRequest(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    gender: Optional[Gender]
+    email: Optional[str]
+    # address: Optional[Address]
+    account_number: Optional[int]
+    balance: Optional[int]
+    is_premium: Optional[bool]

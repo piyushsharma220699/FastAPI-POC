@@ -2,14 +2,21 @@ from fastapi import FastAPI, HTTPException
 from models import Customer, CustomerUpdateRequest
 from database import db
 from uuid import uuid4, UUID
+import pymysql
 
 app = FastAPI()
+rds_db = pymysql.connect(host="fastapi-poc.cmcrmeiknfnz.us-east-1.rds.amazonaws.com", user="admin", password="12345678")
+cursor = rds_db.cursor()
+
+# CREATE A DATABASE IN AWS RDS USING:
+# mysql -h fastapi-poc.cmcrmeiknfnz.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
 
 @app.get("/api/v1/allcustomers")
 def fetch_all_customers():
     return db
 
-@app.get("/api/v1/customer/{customer_id}")
+
+@app.get("/api/v1/customers/{customer_id}")
 def read_customer_detail(customer_id: UUID):
     for customer_detail in db:
         if customer_detail.id == customer_id:
@@ -20,12 +27,14 @@ def read_customer_detail(customer_id: UUID):
         detail=f"Customer with ID: {customer_id} doesn't exist!"
     )
 
-@app.post("/api/v1/customer")
+
+@app.post("/api/v1/customers")
 def create_customer_detail(customer: Customer):
     db.append(customer)
     return {"id": customer.id}
 
-@app.put("/api/v1/customer/{customer_id}")
+
+@app.put("/api/v1/customers/{customer_id}")
 def update_customer_detail(customer_update: CustomerUpdateRequest, customer_id: UUID):
     for customer_detail in db:
         if customer_detail.id == customer_id:
@@ -51,7 +60,7 @@ def update_customer_detail(customer_update: CustomerUpdateRequest, customer_id: 
     )
             
 
-@app.delete("/api/v1/customer/{customer_id}")
+@app.delete("/api/v1/customers/{customer_id}")
 def delete_customer_detail(customer_id: UUID):
     for customer_detail in db:
         if customer_detail.id == customer_id:

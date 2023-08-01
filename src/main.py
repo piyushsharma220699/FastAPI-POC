@@ -8,7 +8,7 @@ app = FastAPI()
 
 @app.get("/api/v1/allcustomers")
 def fetch_all_customers():
-    cursor = connect_with_db("LEARNING")
+    cursor = connect_with_db()
     
     sql = "SELECT * FROM Customer"
     cursor.execute(sql)
@@ -33,7 +33,7 @@ def fetch_all_customers():
 
 @app.get("/api/v1/customers/{account_number}")
 def read_customer_detail(account_number: str):
-    cursor = connect_with_db("LEARNING")
+    cursor = connect_with_db()
 
     sql = f"SELECT * FROM Customer WHERE account_number={account_number}"
     cursor.execute(sql)
@@ -63,7 +63,7 @@ def read_customer_detail(account_number: str):
 
 @app.post("/api/v1/customers")
 def create_customer_detail(customer: Customer):
-    cursor = connect_with_db("LEARNING")
+    cursor = connect_with_db()
     try:
         sql = f"INSERT INTO Customer (account_number, first_name, last_name, gender, balance, is_premium) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.execute(sql,(customer.account_number,customer.first_name,customer.last_name,customer.gender,customer.balance,customer.is_premium))
@@ -78,7 +78,7 @@ def create_customer_detail(customer: Customer):
 
 @app.put("/api/v1/customers/{account_number}")
 def update_customer_detail(account_number: str, customer_update: CustomerUpdateRequest):
-    cursor = connect_with_db("LEARNING")
+    cursor = connect_with_db()
 
     sql = f"SELECT * FROM Customer WHERE account_number={account_number}"
     cursor.execute(sql)
@@ -99,7 +99,7 @@ def update_customer_detail(account_number: str, customer_update: CustomerUpdateR
 
 @app.delete("/api/v1/customers/{account_number}")
 def delete_customer_detail(account_number: str):
-    cursor = connect_with_db("LEARNING")
+    cursor = connect_with_db()
     
     sql = f"DELETE FROM Customer WHERE account_number={account_number}"
     success = cursor.execute(sql)

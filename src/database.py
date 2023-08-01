@@ -1,36 +1,24 @@
-import pymysql
+import pymysql, os
+from dotenv import load_dotenv
 
-def connect_with_db(db_name: str):
-    rds_db = pymysql.connect(host="fastapi-poc.cmcrmeiknfnz.us-east-1.rds.amazonaws.com", user="admin", password="12345678")
+load_dotenv()
+
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_name = os.getenv("DB_NAME")
+
+def connect_with_db():
+    print(db_host)
+    print(db_user)
+    print(str(db_password))
+    rds_db = pymysql.connect(host=db_host, user=db_user, password=str(db_password))
     cursor = rds_db.cursor()
     
     sql = f"USE {db_name}"
     cursor.execute(sql)
 
     return cursor
-
-# db: List[Customer] = [
-#     Customer(
-#         id=uuid4(),
-#         first_name="Piyush",
-#         last_name="Sharma",
-#         gender=Gender.male,
-#         email="piyushsharma220699@gmail.com",
-#         account_number=123456789102,
-#         balance=55000,
-#         is_premium=False
-#     ),
-#     Customer(
-#         id=uuid4(),
-#         first_name="Rohit",
-#         last_name="Sharma",
-#         gender=Gender.male,
-#         email="rohitsharma261203@gmail.com",
-#         account_number=734079774021,
-#         balance=75000,
-#         is_premium=True
-#     )
-# ]
 
 # CREATE A DATABASE IN AWS RDS USING:
 # mysql -h fastapi-poc.cmcrmeiknfnz.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
@@ -55,7 +43,7 @@ def connect_with_db(db_name: str):
 
 # SELECT * FROM Customer
 
-# "SELECT * FROM Customer WHERE account_number=12345678910"
+# SELECT * FROM Customer WHERE account_number=12345678910
 
 
 # {

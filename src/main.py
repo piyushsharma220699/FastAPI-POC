@@ -6,7 +6,7 @@ import json
 
 app = FastAPI()
 
-@app.get("/api/v1/allcustomers")
+@app.get("/api/v1/customers")
 def fetch_all_customers():
     cursor = connect_with_db()
     

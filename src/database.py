@@ -9,9 +9,6 @@ db_password = os.getenv("DB_PASSWORD")
 db_name = os.getenv("DB_NAME")
 
 def connect_with_db():
-    print(db_host)
-    print(db_user)
-    print(str(db_password))
     rds_db = pymysql.connect(host=db_host, user=db_user, password=str(db_password))
     cursor = rds_db.cursor()
     
@@ -19,9 +16,6 @@ def connect_with_db():
     cursor.execute(sql)
 
     return cursor
-
-# CREATE A DATABASE IN AWS RDS USING:
-# mysql -h fastapi-poc.cmcrmeiknfnz.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
 
 # CREATE TABLE Customer (
 # account_number BIGINT PRIMARY KEY NOT NULL,
